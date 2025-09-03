@@ -1,6 +1,6 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render
 from django.views.generic import DetailView
-from .models import Book, Library   # ✅ make sure Library is imported
+from .models import Book, Library   # <-- add Library here
 
 
 # Function-based view
