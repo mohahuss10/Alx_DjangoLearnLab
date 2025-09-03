@@ -23,7 +23,7 @@ def run_queries():
     try:
         library_name = "Central Library"
         library = Library.objects.get(name=library_name)
-        librarian = library.librarian
+        librarian = Librarian.objects.get(library=library)  # ✅ explicit query
         print(f"Librarian of {library_name}:", librarian.name)
     except (Library.DoesNotExist, Librarian.DoesNotExist):
         print("No librarian found for Central Library.")
