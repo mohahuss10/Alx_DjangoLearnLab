@@ -1,5 +1,9 @@
 from django.shortcuts import render, get_object_or_404
 from django.views.generic.detail import DetailView 
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login
+from django.contrib.auth.views import LoginView, LogoutView
+
 from .models import Book
 from .models import Library   
 
@@ -14,3 +18,30 @@ class LibraryDetailView(DetailView):
     model = Library
     template_name = "relationship_app/library_detail.html"
     context_object_name = "library"
+from django.shortcuts import render, redirect
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login
+from django.contrib.auth.views import LoginView, LogoutView
+
+
+# Register view
+def register(request):
+    if request.method == "POST":
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)  # log in immediately after register
+            return redirect("list_books")  # redirect to books list
+    else:
+        form = UserCreationForm()
+    return render(request, "relationship_app/register.html", {"form": form})
+
+
+# Login view (class-based)
+class CustomLoginView(LoginView):
+    template_name = "relationship_app/login.html"
+
+
+# Logout view (class-based)
+class CustomLogoutView(LogoutView):
+    template_name = "relationship_app/logout.html"
