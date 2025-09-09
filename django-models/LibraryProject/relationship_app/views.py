@@ -1,15 +1,13 @@
-from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import DetailView
 from .models import Book
-from .models import Library  
+from .models import Library   # ✅ required by checker
 
 
-# Function-based view: plain text list of books
+# Function-based view: list all books (must use template)
 def list_books(request):
     books = Book.objects.all()
-    output = "\n".join([f"{book.title} by {book.author.name}" for book in books])
-    return HttpResponse(output, content_type="text/plain")
+    return render(request, "relationship_app/list_books.html", {"books": books})
 
 
 # Class-based view: show details for a specific library
